@@ -393,25 +393,40 @@ if (isset($output[0]) && preg_match("/Machine model: (.+)/", $output[0], $matche
 
 }
 
-$rachel_installer_version = "?";
-if (file_exists("/etc/rachelinstaller-version")) {
-    $rachel_installer_version = file_get_contents("/etc/rachelinstaller-version");
+$rachel_version = "?";
+if (file_exists("/etc/rachel-version")) {
+    $rachel_version = file_get_contents("/etc/rachel-version");
 }
 
-$kolibri_version = exec("export USER=`whoami`; kolibri --version;");
+$kolibri_version = "";
+if (is_rachelplus()) {
+    $kolibri_version = exec("export USER=`whoami`; kolibri --version;");
+} else if (is_rachelpi()) {
+    $kolibri_version = exec("cat /etc/kolibri-version");
+}
+
 if (!$kolibri_version || !preg_match("/^[\d\.]+$/", $kolibri_version)) {
     $kolibri_version = "?";
 }
 
-$kalite_version = exec("export USER=`whoami`; kalite --version;");
+$kalite_version = "?";
+if (is_rachelplus()) {
+    $kalite_version = exec("export USER=`whoami`; kalite --version;");
+} else if (is_rachelpi()) {
+    #$kalite_version = exec("cat /etc/kalite-version");
+}
+
 if (!$kalite_version || !preg_match("/^[\d\.]+$/", $kalite_version)) {
     $kalite_version = "?";
 }
 
-$kiwix_version = exec("cat /etc/kiwix/application.ini | grep ^Version | cut -d= -f2");
-if (!$kiwix_version) {
+$kiwix_version = "";
+if (is_rachelplus()) {
+    $kiwix_version = exec("cat /etc/kiwix/application.ini | grep ^Version | cut -d= -f2");
+} else if (is_rachelpi()) {
     $kiwix_version = exec("cat /etc/kiwix-version");
 }
+
 if (!$kiwix_version) {
     $kiwix_version = "?";
 }
@@ -423,7 +438,7 @@ if (!$kiwix_version) {
 <tr><th colspan="2">System Sofware</th></tr>
 <tr><td>Hardware</td><td><?php echo $hardware ?></td></tr>
 <tr><td>OS</td><td><?php echo $os ?></td></tr>
-<tr><td>RACHEL Installer</td><td><?php echo $rachel_installer_version ?></td></tr>
+<tr><td>RACHEL Installer</td><td><?php echo $rachel_version ?></td></tr>
 <tr><td>Kolibri</td><td><?php echo $kolibri_version ?></tr>
 <tr><td>KA Lite</td><td><?php echo $kalite_version ?></tr>
 <tr><td>Kiwix</td><td><?php echo $kiwix_version ?></td></tr>
