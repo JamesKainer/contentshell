@@ -842,7 +842,12 @@ function showip () {
 
 # restart kiwix so it sees what modules are visible/hidden
 function kiwix_restart() {
-    exec("sudo bash /root/rachel-scripts/rachelKiwixStart.sh");
+     if (is_rachelplus()){
+         exec("sudo bash /root/rachel-scripts/rachelKiwixStart.sh");
+     }
+     else if (is_rachelpi()){
+         #exec("sudo /usr/bin/perl /var/kiwix/bin/rachel-kiwix-start.pl");
+     }
 }
 
 function show_local_content_link() {
