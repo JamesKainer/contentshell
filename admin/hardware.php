@@ -24,7 +24,11 @@ if (isset($_POST['shutdown'])) {
 } else if (isset($_POST['reboot'])) {
     # pause so the webserver can respond, the complexity of the the
     # command is so that the exec() returns instantly
-    exec("sudo sh -c 'sleep 3; /sbin/reboot;' > /dev/null 2>&1 &", $exec_out, $exec_err);
+    if (is_rachelplus()) {
+        exec("sudo sh -c 'sleep 3; /sbin/reboot;' > /dev/null 2>&1 &", $exec_out, $exec_err);
+    } else if (is_rachelpi()) {
+        exec("sudo reboot now", $exec_out, $exec_err);
+    }  
     if ($exec_err) {
         echo $lang['restart_failed'];
     } else {
