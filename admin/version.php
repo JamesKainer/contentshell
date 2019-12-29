@@ -442,6 +442,7 @@ if (!$kiwix_version) {
 <tr><td>Kolibri</td><td><?php echo $kolibri_version ?></tr>
 <tr><td>KA Lite</td><td><?php echo $kalite_version ?></tr>
 <tr><td>Kiwix</td><td><?php echo $kiwix_version ?></td></tr>
+<?php if(is_rachelplus()): ?>
 <tr><td>Content Shell</td><td>
 
     <span id="cur_contentshell">v2.3.9</span>
@@ -452,8 +453,11 @@ if (!$kiwix_version) {
         <button id="updatebut" onclick="selfUpdate();" style="margin-left: 5px;">Check for Updates</button>
     </div>
 
-
 </td></tr>
+<?php else: ?>
+<tr><td>Content Shell</td><td>v2.3.9pi</td></tr>
+<?php endif; ?>
+    
 <tr><th colspan="2">Module<div id='avail_something'>Module Updates Available Below</div></th></tr>
 
 <?php
