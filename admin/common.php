@@ -817,6 +817,16 @@ function showip () {
     # not useful - using ifconfig/ipconfig is the way to go,
     # but requires system-specific tweaking
     #-------------------------------------------
+
+    if(is_rachelpi()){
+        exec("/sbin/ifconfig", $output);
+        preg_match("/(?:eth0|enp2s0).+?inet (.+?) /", join("", $output), $match);
+        if (isset($match[1])) { echo "<b>LAN</b>: $match[1]\n"; }
+        preg_match("/(?:wlan0|br\-lan).+?inet (.+?) /", join("", $output), $match);
+        if (isset($match[1])) { echo "<br><b>WIFI</b>: $match[1]\n"; }
+        return;
+    }
+
     if (preg_match("/^win/i", PHP_OS)) {
         # under windows it's ipconfig
         # (though we're making windows static-only now)
