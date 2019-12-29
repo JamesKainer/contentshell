@@ -112,7 +112,14 @@ function draw_stats() {
     # our log file is overrun with stuff like battery check
     # requests -- we filter that here and create a temporary
     # log file instead...
-    $tmpfile = "/media/RACHEL/filteredlog";
+    if (is_rachelplus()) {
+        $tmpfile = "/media/RACHEL/filteredlog";;
+    } else if (is_rachelpi()) {
+        $tmpfile = "/var/log/apache2/access.log";
+    } else {
+        output_and_exit("<h1>Stats Not Supported on this System</h1>");
+    }
+
     $lagtime = 60; # seconds to refresh the filtered log
     if (!file_exists($tmpfile) || (filemtime($tmpfile) < (time() - $lagtime))) {
         exec("grep -v 'GET /admin' $alog > $tmpfile");
