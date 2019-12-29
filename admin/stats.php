@@ -272,7 +272,7 @@ function draw_stats() {
     ');
 
     # allow clearing logs on the plus
-    if (is_rachelplus()) {
+    if (is_rachelplus() || is_rachelpi()) {
         $out .= ('
             <script>
                 function clearLogs() {
@@ -281,7 +281,7 @@ function draw_stats() {
                     }
                     $.ajax({
                         url: "background.php?clearLogs=1",
-                        success: function() {
+                        complete: function() {
                             $("#clearbut").css("color", "green");
                             $("#clearbut").html("&#10004; Logs Cleared");
                         },
