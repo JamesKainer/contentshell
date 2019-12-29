@@ -563,6 +563,37 @@ function clearLogs() {
             exit;
         }
     }
+
+    if(is_rachelpi()){
+        # Command to remove the access and error logs
+        exec("sudo rm /var/log/apache2/error.log /var/log/apache2/access.log", $out, $error);
+
+        if($error){
+            error_log("clearLogs: rm command failed.");
+            header("HTTP/1.1 500 Internal Server Error");
+	    exit;
+        }
+
+        ob_end_clean();
+        header("HTTP/1.1 200 OK");
+        header("Connection: close");
+        ignore_user_abort(true); // just to be safe ob_start();
+        echo "{ \"status\" : \"OK\" }\n";
+        $size = ob_get_length();
+        header("Content-Length: $size");
+        ob_end_flush(); // Strange behaviour, will not work
+        flush(); // Unless both are called !
+
+        # client should be closed now
+        exec("sudo systemctl restart apache2", $out, $error);
+
+        if($error){
+            error_log("clearLogs: Failed to restart apache2 service. ");
+        }
+
+        exit;
+    }
+
     header("HTTP/1.1 500 Internal Server Error");
     exit;
 }
