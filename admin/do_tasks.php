@@ -36,7 +36,12 @@ if (!empty($argv[1])) {
 #-------------------------------------------
 # pid checking - if there's already a copy running, we bail
 #-------------------------------------------
-$pidfile = "/var/run/rachel_do_tasks.pid";
+if(is_rachelpi()){
+    $pidfile = "/var/run/rachel/rachel_do_tasks.pid";
+} else {
+    $pidfile = "/var/run/rachel_do_tasks.pid";
+}
+
 if (file_exists($pidfile)) {
     # we verify that the pid really is running
     $pid = preg_replace("/\D+/", "", file_get_contents($pidfile));
