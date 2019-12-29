@@ -495,7 +495,7 @@ EOT;
 # ...sadly this breaks db access, but we'll have
 # to figure that out later
 #-------------------------------------------
-define("RACHELPI_MODPATH", "/var/www/rachel/modules");
+define("RACHELPI_MODPATH", "/var/www/modules");
 function is_rachelpi() {
     return is_dir(RACHELPI_MODPATH) || file_exists("/tmp/fake-rachelpi");
 }
