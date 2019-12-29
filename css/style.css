@@ -15,8 +15,8 @@ a:visited { color: #649; }
 #rachel {
     display: block;
     width: 960px;
-    height: 120px;
-    background: #000 url('../art/rachel_banner.jpg') no-repeat 0 0;
+    height: 100px;
+    background: #000 url('/art/banner.png') no-repeat 0 0;
     border-radius: 5px;
     margin: auto;
     position: relative;
