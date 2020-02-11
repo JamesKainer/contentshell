@@ -352,7 +352,7 @@ function authorized() {
     } else if (isset($_POST['user']) && isset($_POST['pass'])) {
 
         $db = getdb();
-        $db_user = $db->escapeString($_POST['user']);
+        $db_user = $db->escapeString(strtolower($_POST['user']));
         $db_pass = $db->escapeString(md5($_POST['pass']));
         $validuser = $db->querySingle(
             "SELECT * FROM users WHERE username = '$db_user' AND password = '$db_pass'"
